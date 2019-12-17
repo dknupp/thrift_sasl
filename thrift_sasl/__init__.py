@@ -25,7 +25,7 @@ import six
 import sys
 import struct
 
-from thrift.transport.TTransport import (TTransportException, TTransportBase, CReadableTransport)
+from thriftpy2.transport import TTransportException, TTransportBase  # noqa
 
 # TODO: Check whether the following distinction is necessary. Does not appear to
 # break anything when `io.BytesIO` is used everywhere, but there may be some edge
@@ -36,7 +36,7 @@ else:
     from cStringIO import StringIO as BufferIO
 
 
-class TSaslClientTransport(TTransportBase, CReadableTransport):
+class TSaslClientTransport(TTransportBase):
   START = 1
   OK = 2
   BAD = 3
@@ -60,9 +60,9 @@ class TSaslClientTransport(TTransportBase, CReadableTransport):
 
   def isOpen(self):
     try:
-      is_open = self._trans.isOpen # Thrift
+      is_open = self._trans.isOpen  # Thrift
     except AttributeError:
-      is_open = self._trans.is_open # thriftpy
+      is_open = self._trans.is_open  # thriftpy
 
     return is_open()
 
